@@ -1,27 +1,40 @@
-name: CI/CD Pipeline
+name: CI/CD Pipname: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - main  https://github.com/tophbeifong123/my-repository branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        node-version: '16'
+        python-version: '3.9'
 
-    - name: Install Dependencies
-      run: npm install
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: List files
+      run: |
+        ls -R
+    
+    - name: Run tests
+      run: |
+        pytest -v
 
-    - name: Run Tests
-      run: npm test
+  deploy:
+    needs: build 
+    runs-on: ubuntu-latest
 
+    steps:
     - name: Deploy Application
-      run: npm run deploy
+      run: |
+        echo "Deploying application..."
