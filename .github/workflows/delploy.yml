@@ -1,9 +1,9 @@
-name: CI/CD Pipname: CI/CD Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main  https://github.com/tophbeifong123/my-repository branch
+      - main
 
 jobs:
   build:
@@ -22,19 +22,21 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
     - name: List files
       run: |
         ls -R
-    
+
     - name: Run tests
       run: |
         pytest -v
 
   deploy:
-    needs: build 
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
     - name: Deploy Application
       run: |
         echo "Deploying application..."
+
